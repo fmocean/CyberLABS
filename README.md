@@ -13,15 +13,21 @@ Educators and trainers teaching offensive security.
 Our labs focus on:
 
 
-Web Application Attacks. [Link to LAB]
+🌐 [Web Application Attacks](https://github.com/fmocean/CyberLABS/wiki/Web-Application-Attacks-%F0%9F%8C%90%F0%9F%95%B8%EF%B8%8F)
+Uncover the secrets buried within web applications. Manipulate, exploit, and rewrite the rules of engagement.
 
-Network PenTESTS. [Link to LAB]
+🌍 [Network PenTests](https://github.com/fmocean/CyberLABS/wiki/Network-PenTests-%F0%9F%8C%8D%E2%9A%A1)
+The network never sleeps. Map its veins, trace its signals, and uncover weaknesses in its design.
 
-Exploit Devs. [Link to LAB]
+💣 [Exploit Development](https://github.com/fmocean/CyberLABS/wiki/Exploit-Development-%F0%9F%92%A3%F0%9F%A7%A9)
+Forge tools of precision from the chaos of code. Every exploit is a key to a locked door—what will you discover?
 
-Post Exploitations. [Link to LAB]
+🕳️ [Post Exploitations](https://github.com/fmocean/CyberLABS/wiki/Post-Exploitations-%F0%9F%95%B3%EF%B8%8F%F0%9F%90%BE)
+The aftermath is where the real game begins. Maintain control, gather intelligence, and leave no trace.
 
-Red Teaming. [Link to LAB]
+🛡️ [Red Teaming](https://github.com/fmocean/CyberLABS/wiki/Red-Teaming-%F0%9F%9B%A1%EF%B8%8F%F0%9F%91%B9)
+Simulate the mind of an adversary. Plan, adapt, and dominate. This is more than a test—it’s a battle of wits.
+
 
 
 
