@@ -12,10 +12,14 @@ Professionals looking to hone their skills.
 Educators and trainers teaching offensive security.
 Our labs focus on:
 
-Web application security.
-Network exploitation.
-Privilege escalation techniques.
-Reverse engineering and more!
+Web Application Attacks. [Link to LAB]
+Network PenTESTS. [Link to LAB]
+Exploit Devs. [Link to LAB]
+Post Exploitations. [Link to LAB]
+Red Teaming. [Link to LAB]
+
+
+
 📂 Repository Structure
 Here's what you'll find in this repo:
 
