@@ -1,73 +1,133 @@
-🌐 CyberLABS
+# CyberLABS – Ethical Hacking Labs Wiki
 
+> CyberLABS is a structured playground for learning **offensive security** through hands‑on, scenario‑driven labs.[web:9][web:16]  
+> This README is the “front page” to the lab wiki: start here, dive into the sections, and hack to learn.
 
-Welcome to CyberLABS!
-CyberLABS is your gateway to mastering penetration testing through hands-on labs, real-world scenarios, and custom tools to sharpen your cybersecurity skills.
+---
 
-🚀 About CyberLABS
-CyberLABS is designed for:
+## What Is CyberLABS?
 
-Aspiring penetration testers and cybersecurity enthusiasts.
-Professionals looking to hone their skills.
-Educators and trainers teaching offensive security.
-Our labs focus on:
+CyberLABS is a collection of practical labs, tools, and notes for:
 
+- Students and newcomers learning ethical hacking from scratch[web:9][web:16]  
+- Security professionals who want focused practice on specific techniques  
+- Educators building repeatable exercises for classes and workshops[web:10]  
 
-🌐 [Web Application Attacks](https://github.com/fmocean/CyberLABS/wiki/Web-Application-Attacks-%F0%9F%8C%90%F0%9F%95%B8%EF%B8%8F)
-Uncover the secrets buried within web applications. Manipulate, exploit, and rewrite the rules of engagement.
+Labs are meant to feel like small, self‑contained engagements: you enumerate, exploit, escalate, persist, and document.
 
-🌍 [Network PenTests](https://github.com/fmocean/CyberLABS/wiki/Network-PenTests-%F0%9F%8C%8D%E2%9A%A1)
-The network never sleeps. Map its veins, trace its signals, and uncover weaknesses in its design.
+---
 
-💣 [Exploit Development](https://github.com/fmocean/CyberLABS/wiki/Exploit-Development-%F0%9F%92%A3%F0%9F%A7%A9)
-Forge tools of precision from the chaos of code. Every exploit is a key to a locked door—what will you discover?
+## Wiki Map
 
-🕳️ [Post Exploitations](https://github.com/fmocean/CyberLABS/wiki/Post-Exploitations-%F0%9F%95%B3%EF%B8%8F%F0%9F%90%BE)
-The aftermath is where the real game begins. Maintain control, gather intelligence, and leave no trace.
+Use this as your navigation hub. Each section links into a wiki page with theory, setup, and walkthrough‑style guidance.[web:10]
 
-🛡️ [Red Teaming](https://github.com/fmocean/CyberLABS/wiki/Red-Teaming-%F0%9F%9B%A1%EF%B8%8F%F0%9F%91%B9)
-Simulate the mind of an adversary. Plan, adapt, and dominate. This is more than a test—it’s a battle of wits.
+- **Web Application Attacks**  
+  Common web vulns, misconfigurations, and bug‑bounty‑style scenarios.
 
+- **Network PenTests**  
+  Network scanning, service fingerprinting, misconfigurations, and lateral movement inside small lab networks.[web:9]
 
+- **Exploit Development**  
+  Crash analysis, exploit primitives, ROP, and basic mitigation bypass against lab binaries.
 
+- **Post Exploitations**  
+  Local privilege escalation, credential theft, persistence, and data exfiltration on Windows and Linux.[web:9][web:21]
 
+- **Red Teaming**  
+  End‑to‑end campaigns with objectives, OPSEC trade‑offs, and reporting.
 
-📂 Repository Structure
-Here's what you'll find in this repo:
+Each category in the repo (`labs/web`, `labs/network`, etc.) corresponds to a wiki section with more detail.[web:9][web:10]
 
-Labs
-Pre-configured pentesting scenarios to explore vulnerabilities.
-Tools
-Scripts and utilities for ethical hacking.
-Resources
-Guides, cheat sheets, and references for learners.
-🛠️ Setup Instructions
-Follow these steps to get started:
+---
 
-Clone the repository:
+## Lab Philosophy
 
-git clone https://github.com/YourUsername/CyberLABS.git
+CyberLABS is designed around a few ideas:[web:9][web:16]
 
+- **Hands‑on first** – You learn by doing, breaking, and fixing.  
+- **Small, focused scenarios** – Each lab teaches a small cluster of related techniques.  
+- **Ethical by design** – Everything runs in controlled environments you own.  
+- **Documentation‑driven** – Every lab pushes you to take notes and write a short report, like a real engagement.[web:26]
 
-🌟 Features
-🔍 Realistic Scenarios: Simulate real-world cyberattacks in a controlled environment.
-🖥️ Custom Tools: Automate reconnaissance, enumeration, and exploitation.
-📖 Comprehensive Guides: Learn-by-doing with step-by-step instructions.
-🎯 Goals
-Empower learners with practical pentesting skills.
-Foster a community of cybersecurity enthusiasts.
-Share knowledge and resources to make ethical hacking accessible.
-🤝 Contributing
-Contributions are welcome! Here's how you can help:
+If you are completely new, start with simpler recon and web labs, then build up to exploit‑dev and red‑team scenarios.[web:9][web:16]
 
-Report bugs or suggest features by opening an issue.
-Submit pull requests to improve the labs or add new tools.
-📬 Contact
-Have questions or suggestions? Reach out:
+---
 
-Email: dzoceanlvl6@gmail.com
-⚠️ Disclaimer
-CyberLABS is intended for ethical purposes only. Unauthorized use of these tools or labs to target systems you do not own is strictly prohibited and may violate laws.
+## Repository Layout
 
-Happy Hacking! 🐱‍💻
-Made with ❤️ by S7aVaGE3Zz.
+```text
+CyberLABS/
+  labs/
+    web/               # Web application attack labs
+    network/           # Host & network pentest labs
+    exploit-dev/       # Exploit development exercises
+    post-exploitation/ # Post-compromise & privesc labs
+    red-team/          # Multi-stage, campaign-style labs
+  tools/               # Helper scripts & utilities
+  resources/           # Cheat sheets, notes, references
+  docs/                # Extra documentation referenced by the wiki
+```
+
+- `labs/` – Each folder = a family of scenarios; see the wiki for goals and guides.[web:9]  
+- `tools/` – Small, focused utilities for recon, exploitation, or post‑ex.  
+- `resources/` – Learning material, methodology notes, and external references.  
+- `docs/` – Additional docs that complement the wiki pages.
+
+---
+
+## How to Use This Repo
+
+1. **Pick a track**  
+   Choose web, network, exploit‑dev, post‑ex, or red‑team, depending on your goal.[web:9][web:16]
+
+2. **Open the matching wiki page**  
+   Read the intro, objectives, and environment notes for that track.[web:10]
+
+3. **Deploy the lab**  
+   Spin up the VMs/containers as described for that scenario (VirtualBox/VMware/Docker/etc.).[web:20]
+
+4. **Attack, iterate, and document**  
+   Work through recon → exploit → post‑ex.  
+   Take notes and, if you want, write a mini pentest report for yourself.[web:18][web:26]
+
+5. **Reset and try again**  
+   Use snapshots or fresh deployments to practice different paths or tools.
+
+---
+
+## Who This Is For
+
+- Self‑taught hackers looking for structured practice instead of random CTFs[web:9][web:16]  
+- Students in cybersecurity, networking, or computer science courses  
+- Sysadmins and network engineers wanting to understand attacker workflows  
+- Trainers and instructors who want ready‑made, reproducible lab material[web:10]
+
+You do not need to be an expert to start; you just need curiosity and patience.
+
+---
+
+## Contributing
+
+Contributions are welcome and encouraged:[web:7][web:9]
+
+- Add new labs or extend existing ones (more hosts, more paths, more “gotchas”).  
+- Improve or expand wiki documentation and methodology pages.  
+- Contribute small, battle‑tested tools that make lab life easier.  
+
+Open an issue to propose ideas, then submit a pull request when you are ready.
+
+---
+
+## Ethics & Legal
+
+CyberLABS exists to **improve security**, not to harm systems.[web:6][web:21]
+
+- Only attack systems you own or have explicit written permission to test.  
+- Do not aim CyberLABS tooling at production networks, random servers, or people’s devices.  
+- Follow local laws, professional codes of conduct, and common‑sense ethics.
+
+Using these labs against unauthorized targets is illegal and against the spirit of this project.
+
+---
+
+Made by **S7aVaGE3Zz** • Inspired by the wider ethical hacking and pentest community.[web:9][web:16]
