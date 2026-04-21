@@ -1,0 +1,9 @@
+[Unit]
+Description=Simple network connectivity watcher
+
+[Service]
+ExecStart=/usr/local/bin/net-watch.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
