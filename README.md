@@ -1,115 +1,83 @@
-# CyberXI
+# SOC-Range
 
-> *"To defend a system, you must think like the machine. To break a system, you must think like the adversary. To master both — you must become something the system never anticipated."*
+> *A blue-team lab built to prove monitoring, troubleshooting, detection thinking, and dashboard engineering under real conditions.*
 
-**CyberXI** is a live cybersecurity repository built from two directions at once: blue‑team observability and red‑team pressure. It is not a dump of notes or a shelf of disconnected scripts. It is a working portfolio designed to document real systems, real failure points, and the technical reasoning behind how they are built, monitored, broken, and improved.
+**SOC-Range** is the defensive branch of CyberXI. It is a hands-on Wazuh-centered SOC lab built to show what happens after the install wizard is finished: endpoint onboarding, telemetry validation, Sysmon visibility, alert triage, dashboard design, backend troubleshooting, and the slow transition from default noise to useful signal.
 
-The blue side is already active. Endpoints are being monitored, telemetry is being shaped into usable signal, services are being stabilized, and dashboards are being built around analyst needs instead of default noise. The red side is still inbound, but it was part of the architecture from the beginning: adversarial simulation, exploitation logic, privilege paths, persistence, post‑exploitation tradecraft, and detection validation against the same environment the blue side is instrumenting.
+This project is not meant to show “I installed a SIEM once.” It is meant to show that operating a SIEM is a systems problem. The frontend can look healthy while the backend is failing. Agents can be active while producing low-value data. Dashboards can be populated while still telling the analyst nothing useful.
 
-This repository exists to make security work visible.
+The goal of SOC-Range is to build a small but serious monitoring environment that proves practical skill in:
 
----
-
-## Repository Map
-
-| Branch | Status | Purpose |
-| ------ | ------ | ------- |
-| [SOC-Range](https://github.com/fmocean/CyberXI/tree/SOC-Range) | Active | Wazuh-based SOC lab with Windows and Linux endpoints, Sysmon, dashboards, alert tuning, troubleshooting, and detection growth |
-| [watchdog](https://github.com/fmocean/CyberXI/tree/watchdog) | Active | `net-watch`, a Linux/systemd watchdog for short ghost network drops that standard link-state logging often misses |
-| Red Zone | Inbound | Offensive branch planned for recon, exploitation, privilege escalation, persistence, lateral movement, post-exploitation, and validation against blue‑side detections |
-
-These branches already tell the shape of the project: observe the system, harden the system, pressure the system, and document what breaks.
+- Wazuh deployment and stabilization
+- Windows and Linux telemetry onboarding
+- Sysmon integration
+- dashboard design
+- alert tuning
+- service troubleshooting
+- detection engineering direction
+- documentation of real failure modes and fixes
 
 ---
 
-## What CyberXI Is
+## Overview
 
-CyberXI is a dual‑discipline security engineering repository that treats offense and defense as two sides of the same technical problem. It does not separate “learning tools” from operational work. Everything here is meant to be testable, explainable, reproducible, and useful under real conditions.
+This branch centers on a Wazuh deployment running on Ubuntu with Windows and Linux endpoints enrolled as agents. Wazuh’s dashboard is the web interface used to visualize, analyze, and manage security data, while the Wazuh indexer serves as the search and analytics engine that stores and serves that data for investigation and monitoring.[web:382][web:376]
 
-**Core ideas behind the repo:**
-
-- Every observable surface implies an attack surface.  
-- Every detection rule implies an evasion path.  
-- Every service that claims to be healthy deserves to be tested until that claim breaks.  
-- Every trust relationship implies a privilege route waiting to be mapped.  
-- Every log source either tells the truth, misses something important, or lies.  
-
-The long‑term goal is convergence: build the environment from the defensive side, then attack that same environment from the offensive side and measure exactly what the stack sees, misses, and misclassifies.
+The project is being shaped like a real SOC environment rather than a one-time lab. That means platform health matters, telemetry quality matters, and dashboard usefulness matters. The focus is not just on “alerts exist,” but on whether those alerts are actionable, visible, and trustworthy.
 
 ---
 
-## Skills Demonstrated
+## Lab Environment
 
-This repository is designed to show practical ability across security operations, security engineering, Linux administration, troubleshooting, and documentation.
+| Host | IP | Role |
+|------|----|------|
+| Wazuh Server | `10.0.0.124` | Ubuntu host running Wazuh manager, indexer, and dashboard |
+| Windows 10 Endpoint | `10.0.0.226` | Wazuh agent + Sysmon for endpoint and process visibility |
+| Ubuntu Endpoint | `10.0.0.x` | Linux agent for SSH, auth, and sudo telemetry |
+| Ubuntu Desktop | `10.0.0.45` | Analyst / operator workstation |
 
-### Blue‑team skills
+**Hardware**
+- Dell R710 homelab server
 
-- Wazuh SIEM/XDR deployment and stabilization  
-- Windows and Linux endpoint onboarding  
-- Sysmon deployment and Windows event telemetry enrichment  
-- Alert triage, dashboard design, and detection tuning  
-- Wazuh dashboard, manager, and indexer troubleshooting  
-- Journald-based forensic log review  
-- Network observability and outage investigation  
-- Bash scripting for operational tooling  
-- systemd service creation and lifecycle management  
-- Grafana‑oriented dashboard thinking for trend analysis and executive reporting  
+**Core components**
+- Wazuh manager
+- Wazuh indexer
+- Wazuh dashboard
+- Windows Wazuh agent
+- Linux Wazuh agent
+- Sysmon on Windows
+- Grafana direction for richer trend and reporting views
 
-### Red‑team direction
-
-- Enumeration and attack surface mapping  
-- Service fingerprinting and misconfiguration discovery  
-- Exploitation chains against real lab targets  
-- Linux and Windows privilege escalation paths  
-- Persistence mechanics and detection testing  
-- Lateral movement simulation across the lab subnet  
-- Post‑exploitation tradecraft and evidence review  
-- Detection‑gap analysis using MITRE ATT&CK‑style mapping  
+The Wazuh server is built around the manager and Filebeat, with the manager handling analysis and alerting, while the dashboard provides the operational UI for investigating alerts and platform state.
 
 ---
 
-## SOC-Range
+## What This Lab Proves
 
-### Overview
+This branch is designed to prove skills that show up repeatedly in SOC Analyst, SOC Engineer, and Security Engineer roles:
 
-[SOC-Range](https://github.com/fmocean/CyberXI/tree/SOC-Range) is the blue‑team branch of CyberXI. It is a Wazuh‑centered SOC lab built to show what happens **after** installation: agent onboarding, telemetry validation, dashboard design, alert quality review, service failures, tuning decisions, and the transition from default visibility to useful visibility.
+- Centralized monitoring across Windows and Linux
+- Practical understanding of Wazuh components and dependencies
+- Deeper Windows visibility through Sysmon event collection
+- Useful dashboarding instead of default visual clutter
+- Operational troubleshooting when backend services fail
+- Early detection engineering with testing and tuning workflows
 
-This branch is meant to demonstrate that operating a SIEM is different from merely deploying one. A frontend can look healthy while the backend is failing. Agents can be active while producing low‑value noise. Dashboards can be full while still answering none of the questions an analyst actually cares about.
-
-### Lab Environment
-
-| Host            | IP           | Role                                                       |
-| -------------- | ------------ | ---------------------------------------------------------- |
-| Wazuh Server   | `10.0.0.124` | Ubuntu host running Wazuh manager, indexer, and dashboard |
-| Windows 10     | `10.0.0.226` | Wazuh agent + Sysmon for process and event visibility     |
-| Ubuntu Endpoint| `10.0.0.x`   | Linux telemetry for SSH, auth, and sudo activity          |
-| Ubuntu Desktop | `10.0.0.45`  | Analyst / operator workstation                            |
-
-**Hardware in use:**
-
-- Dell R710 homelab server  
-
-### Core Stack
-
-- Wazuh manager  
-- Wazuh indexer  
-- Wazuh dashboard  
-- Windows Wazuh agent  
-- Linux Wazuh agent  
-- Sysmon on Windows  
-- Grafana direction for enhanced trend views and executive‑style reporting  
-
-The Wazuh dashboard provides the web interface for alert review and environment visibility, while the Wazuh indexer stores and serves the analyzed security data that the dashboard queries.
+The value of the lab is not that it exists. The value is that it documents what was built, what broke, what was fixed, and what the operator learned from the process.
 
 ---
 
-### Install Steps
+## Installation
 
-#### Wazuh server (Ubuntu)
+### Wazuh Server (Ubuntu)
+
+The Wazuh installation guide supports installing the platform components and using the dashboard as the web-based interface for platform visibility and management.
 
 ```bash
-# Download and run the all-in-one installer
+# Download the all-in-one installer
 curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh
+
+# Run the installer
 sudo bash wazuh-install.sh -a
 
 # Open core ports
@@ -118,13 +86,15 @@ sudo ufw allow 1514/tcp
 sudo ufw allow 1515/tcp
 sudo ufw allow 55000/tcp
 
-# Verify services
+# Verify service status
 sudo systemctl status wazuh-manager
 sudo systemctl status wazuh-indexer
 sudo systemctl status wazuh-dashboard
 ```
 
-#### Windows 10 endpoint
+### Windows 10 Agent
+
+Wazuh documents both GUI and CLI installation methods for Windows agents, including setting `WAZUH_MANAGER` during installation and starting the `WazuhSvc` service afterward.
 
 ```text
 1) Download the Wazuh agent MSI
@@ -133,13 +103,20 @@ sudo systemctl status wazuh-dashboard
 4) Start the agent service
 ```
 
-#### Sysmon on Windows
+CLI-style example:
+
+```powershell
+.\wazuh-agent-4.x.x-1.msi /q WAZUH_MANAGER="10.0.0.124"
+Start-Service wazuhsvc
+```
+
+### Sysmon on Windows
 
 ```powershell
 .\Sysmon64.exe -accepteula -i .\sysmonconfig-export.xml
 ```
 
-#### Sysmon event collection in Wazuh agent
+### Wazuh Agent Sysmon Collection
 
 ```xml
 <localfile>
@@ -148,26 +125,37 @@ sudo systemctl status wazuh-dashboard
 </localfile>
 ```
 
-#### Restart the Windows agent
+### Restart the Windows Agent
 
 ```powershell
 Restart-Service WazuhSvc
 ```
 
-#### Ubuntu endpoint agent
+### Linux Agent (Ubuntu Endpoint)
+
+Wazuh supports Linux agent deployment using repository-based installation with `WAZUH_MANAGER` provided during install, followed by enabling and starting the agent service.
 
 ```bash
-curl -sO https://packages.wazuh.com/4.x/agents/wazuh-agent.deb
-sudo dpkg -i wazuh-agent.deb
+curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | \
+gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import
+
+sudo chmod 644 /usr/share/keyrings/wazuh.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | \
+sudo tee /etc/apt/sources.list.d/wazuh.list
+
+sudo apt-get update
+sudo WAZUH_MANAGER="10.0.0.124" apt-get install wazuh-agent
+sudo systemctl daemon-reload
 sudo systemctl enable wazuh-agent
 sudo systemctl start wazuh-agent
 ```
 
 ---
 
-### Config Highlights
+## Configuration Highlights
 
-#### Useful ports
+### Important Ports
 
 ```bash
 443/tcp   # Wazuh dashboard
@@ -176,7 +164,7 @@ sudo systemctl start wazuh-agent
 55000/tcp # Wazuh API
 ```
 
-#### Windows agent Sysmon block
+### Windows Agent Sysmon Block
 
 ```xml
 <localfile>
@@ -185,52 +173,70 @@ sudo systemctl start wazuh-agent
 </localfile>
 ```
 
-#### Alert log location
+### Common Alert Location
 
 ```bash
 /var/ossec/logs/alerts/alerts.json
 ```
 
----
+### Service Checks
 
-### Dashboards and Grafana Direction
+```bash
+sudo systemctl status wazuh-manager
+sudo systemctl status wazuh-indexer
+sudo systemctl status wazuh-dashboard
+sudo /var/ossec/bin/agent_control -l
+```
 
-Current dashboard thinking is built around operational questions instead of vanity numbers:
-
-- Alert volume over time  
-- Top noisy agents  
-- Top rules firing  
-- High and critical alerts only  
-- Recent alerts with host, severity, rule, and timestamp  
-- Windows‑focused suspicious process activity  
-- Linux SSH and authentication patterns  
-
-Wazuh’s dashboard is built to aggregate and visualize security‑related incidents in real time, with the indexer acting as the search and analytics engine underneath that workflow.
-
-Grafana is part of the direction because it signals stronger dashboard engineering skills:
-
-- time‑series panels for alert rate trends  
-- cleaner executive reporting views  
-- visually stronger analyst dashboards  
-- better storytelling for spikes, baselines, and outliers  
+The dashboard is used for investigating events, alerts, and platform state, while custom dashboards can be created to visualize the KPIs that matter most for a given environment.
 
 ---
 
-### Problems Encountered
+## Dashboards
 
-#### 1) “Wazuh dashboard server is not ready yet”
+Current dashboard direction is built around practical SOC questions, not vanity metrics:
 
-**Symptom:**
+- Alert volume over time
+- Top noisy agents
+- Top rules firing
+- High and critical alerts only
+- Recent alerts with host, severity, rule, and timestamp
+- Windows-focused suspicious process activity
+- Linux SSH and authentication activity
 
-- The UI shell was reachable.  
-- The dashboard would not fully load.  
-- Backend services were not healthy.  
+Wazuh supports custom dashboards for tailoring visualizations to the needs of the environment, which makes it possible to move beyond defaults and build views centered on severity, alert sources, and operational KPIs.
 
-**Likely issue in the lab:**
+---
 
-- `wazuh-indexer` was not fully starting or timing out during startup.
+## Grafana Direction
 
-**Troubleshooting used:**
+Grafana is part of the direction for this branch because it adds another layer of dashboard engineering and presentation maturity. The goal is not to replace Wazuh, but to show that the underlying alert and event data can also be shaped into cleaner time-series views, stronger trend panels, and more executive-friendly reporting.
+
+Planned Grafana-style views:
+
+- Alert rate trends over time
+- Severity distribution panels
+- Top hosts by alert activity
+- Analyst-focused high-priority timeline
+- Executive summary dashboards
+
+This matters because employers often care less about one exact UI and more about whether someone can take noisy security telemetry and turn it into useful monitoring surfaces.
+
+---
+
+## Problems Encountered
+
+### 1) “Wazuh dashboard server is not ready yet”
+
+**Symptom**
+- The login page or UI shell was reachable.
+- The dashboard would not fully load.
+- Backend health was not actually good.
+
+**Likely issue**
+- `wazuh-indexer` was not fully starting, was timing out, or was otherwise unavailable to the dashboard.
+
+**Troubleshooting used**
 
 ```bash
 sudo systemctl status wazuh-indexer --no-pager
@@ -239,16 +245,15 @@ sudo systemctl restart wazuh-indexer
 sudo systemctl restart wazuh-dashboard
 ```
 
-This mattered because the dashboard depends on indexed data and service health behind the UI, not just the presence of an open web port.
+This mattered because an open dashboard port does not guarantee that indexed data is available behind the UI. The dashboard depends on the underlying platform components being healthy and connected.
 
-#### 2) Dashboard reachable but backend status unhealthy
+### 2) Dashboard reachable but backend still unhealthy
 
-**Observed lesson:**
+**Lesson learned**
+- A `running` state in systemd does not always mean the platform is usable.
+- Service dependency order and backend readiness matter.
 
-- A “running” service in systemd does not always mean the platform is fully usable.  
-- Service dependency and backend initialization order matter.  
-
-**Example checks:**
+**Checks used**
 
 ```bash
 ss -tlnp | grep 443
@@ -256,154 +261,118 @@ curl -k https://localhost/status
 sudo systemctl status wazuh-dashboard
 ```
 
-#### 3) Windows config editing problems
+### 3) Windows config editing problems
 
-**Observed lesson:**
-
-- Editing `ossec.conf` under `Program Files` requires elevated privileges.  
-- Notepad or another editor needs to be launched as Administrator before saving changes.  
-
----
-
-### What This Branch Proves
-
-`SOC-Range` is meant to prove:
-
-- SIEM deployment is understood beyond a wizard‑based install  
-- Windows and Linux telemetry can be onboarded and validated  
-- Sysmon can be used to deepen Windows visibility  
-- Alerts can be turned into useful analyst workflows  
-- Service health can be troubleshot when the platform breaks  
-- Dashboards can be designed around decision‑making, not decoration  
+**Lesson learned**
+- Editing `ossec.conf` under `Program Files` requires elevated privileges.
+- On Windows, the editor itself must be launched as Administrator before changes can be saved.
 
 ---
 
-## watchdog
+## Detection Direction
 
-### Overview
+Default alerts are useful for learning the platform, but the stronger signal for employers is the move toward detection engineering.
 
-[watchdog](https://github.com/fmocean/CyberXI/tree/watchdog) contains `net-watch`, a small Linux/systemd‑native watchdog built for one specific problem: the short network drop that kills SSH sessions, stalls downloads, and freezes streams without ever appearing as a clean link‑down event in normal system logs.
+Planned or in-progress detection areas:
 
-Instead of trusting carrier state, `net-watch` trusts reachability. It pings a target once per second and writes only state changes into `journald`: one `LINK DOWN`, one `LINK UP`, and nothing noisy in between.
+- PowerShell execution and suspicious command usage
+- SSH brute-force attempts
+- New local administrator creation
+- Persistence through scheduled tasks or Run keys
+- Suspicious process relationships
+- Basic ATT&CK mapping for detection coverage
 
-### Why It Exists
+The point is to move from “user of alerts” to “builder and tuner of detections.”
 
-This project exists because some of the most frustrating outages never become obvious evidence:
+---
 
-- SSH freezes  
-- Streams buffer  
-- Sessions hang  
-- Monitoring stays green  
-- Link state never drops  
+## Skills Demonstrated
 
-`net-watch` turns that invisible problem into searchable, timestamped evidence.
+### SOC Analyst Skills
 
-### Features
+- Understanding endpoint event flow
+- Reviewing and triaging alerts
+- Identifying noise versus useful signal
+- Prioritizing events through dashboards
+- Investigating suspicious Windows and Linux activity
 
-- Tiny Bash loop with no external dependencies  
-- systemd‑native service design  
-- Automatic restart behavior  
-- Configurable logger tag  
-- Clean `journald` history for flap analysis  
-- State‑transition logging instead of per‑ping spam  
+### SOC Engineer Skills
 
-### Install
+- Deploying and stabilizing Wazuh components
+- Managing Windows and Linux agents
+- Building dashboards around useful KPIs
+- Troubleshooting manager / indexer / dashboard dependencies
+- Preparing the ground for custom detection logic
 
-```bash
-chmod +x setup-net-watch.sh
-sudo ./setup-net-watch.sh
+### Security Engineer Skills
+
+- Thinking in terms of telemetry quality and coverage
+- Extending Windows visibility with Sysmon
+- Building an environment that supports investigation
+- Converting operational failures into documented improvements
+- Presenting technical work as a portfolio artifact
+
+---
+
+## Screenshots
+
+Recommended structure:
+
+```text
+images/
+├── soc-overview.png
+├── top-alerts.png
+├── sysmon-events.png
+└── wazuh-health.png
 ```
 
-The installer is intended to:
+Example usage in `README.md`:
 
-- ask for the target to monitor, default `8.8.8.8`  
-- ask for the logger tag, default `net_watch`  
-- place the script in `/usr/local/bin/net-watch.sh`  
-- create `/etc/systemd/system/net-watch.service`  
-- reload systemd, enable the service, and start it  
+```md
+## Screenshots
 
-### How It Works
+### SOC Overview
 
-```bash
-#!/bin/bash
-TARGET=8.8.8.8
-TAG=net_watch
-STATE=up
 
-while true; do
-  if ping -c1 -W1 "$TARGET" >/dev/null 2>&1; then
-    if [ "$STATE" = down ]; then
-      logger -t "$TAG" "LINK UP to $TARGET"
-      STATE=up
-    fi
-  else
-    if [ "$STATE" = up ]; then
-      logger -t "$TAG" "LINK DOWN to $TARGET"
-      STATE=down
-    fi
-  fi
-  sleep 1
-done
+### Top Alerts
+
+
+### Sysmon Events
+
+
+### Wazuh Health
+
 ```
 
-### Query Examples
-
-```bash
-# All state changes
-journalctl -t net_watch
-
-# Drops only
-journalctl -t net_watch | grep "LINK DOWN"
-
-# Live view
-journalctl -t net_watch -f
-```
-
-### What This Branch Proves
-
-The `watchdog` branch is small, but it proves real engineering instincts:
-
-- Linux troubleshooting mindset  
-- Bash scripting with operational value  
-- systemd service design  
-- `journald`‑centric forensic thinking  
-- Preference for measuring real behavior instead of trusting weak signals  
+GitHub supports relative image paths in README files, which makes storing screenshots inside the repository a clean way to keep documentation portable and self-contained.
 
 ---
 
-## Red Zone
+## Why This Branch Matters
 
-> *The offensive branch does not fully exist yet, but the infrastructure built on the blue side was always intended to become the target.*
+A lot of labs show that a tool was installed. Fewer show that the tool was operated, questioned, improved, and documented under imperfect conditions.
 
-The red side is not missing by accident. It is being staged behind the blue side for a reason: offensive work becomes more valuable when it is tested against infrastructure that has already been instrumented, logged, and partially hardened.
+SOC-Range matters because it shows:
 
-When the Red Zone branch lands, it is intended to cover:
+- the platform was deployed
+- the endpoints were onboarded
+- telemetry was improved with Sysmon
+- dashboards were shaped around analyst needs
+- backend problems were investigated
+- detection work is being developed
+- the work is documented clearly enough to discuss in interviews
 
-- passive and active enumeration  
-- service fingerprinting  
-- exploitation chains against real misconfigurations  
-- Linux and Windows privilege escalation  
-- persistence techniques such as scheduled tasks, cron, Run keys, and service installation  
-- lateral movement across the lab subnet  
-- post‑exploitation tradecraft  
-- validation of whether Wazuh and future Grafana views actually observed the activity  
-- ATT&CK‑style mapping of offensive actions to defensive detections  
-
-The philosophy is simple: the point is not to pop a shell and stop. The point is to run a technique, measure whether the blue side saw it, document the gap, and then improve either the detection or the technique.
+That is what turns a homelab into a portfolio artifact.
 
 ---
 
-## Why This Repository Exists
+## Next Steps
 
-A lot of security portfolios stop at screenshots, completed labs, or lists of tools. This repository exists to go further: build real things, break real things, document what failed, explain why it failed, and improve the design based on evidence.
+- Finalize a stronger SOC overview dashboard
+- Add screenshots from Wazuh and future Grafana views
+- Add custom rules and documented detections
+- Build short incident scenarios and triage notes
+- Map detections to MITRE ATT&CK techniques
+- Document false positives and tuning decisions
 
-Each branch is meant to answer technical questions that matter in interviews and code reviews:
-
-- What problem does this solve?  
-- What broke during implementation?  
-- How was it diagnosed?  
-- What changed afterward?  
-- Which skills does this prove?  
-- Would someone trust this work in a real environment?  
-
-That last question is the point of CyberXI.
+SOC-Range is not meant to stay static. It is being built as a living SOC lab that grows from installation into operations, then from operations into detection engineering.
