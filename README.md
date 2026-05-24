@@ -392,13 +392,6 @@ That workflow is one of the biggest job signals in the whole repo because it sho
 
 ---
 
-## Operational lessons learned
-
-One of the best things about this project is that it has already produced real troubleshooting experience.
-The lab ran into the classic Wazuh situation where the UI was reachable but the backend was not healthy, leading to the message `Wazuh dashboard server is not ready yet` when the indexer failed or timed out during startup.[cite:284][cite:285][cite:286]
-
-That is not wasted time.
-That is actual platform operations work.
 
 Handling that issue teaches several things employers care about:
 
