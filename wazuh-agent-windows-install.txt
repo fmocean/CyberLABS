@@ -1,0 +1,12 @@
+Wazuh Agent Install for Windows
+===============================
+
+1. Download the Wazuh agent MSI installer.
+2. Run the installer as Administrator.
+3. Set the manager IP to: 10.0.0.124
+4. Finish the install and start the Wazuh service.
+
+PowerShell / CLI example:
+
+msiexec /i wazuh-agent-4.x.x-1.msi /q WAZUH_MANAGER="10.0.0.124"
+Start-Service wazuhsvc

@@ -1,0 +1,9 @@
+SOC-Range Lab Hosts and IPs
+===========================
+
+Wazuh Server     : 10.0.0.124   - Ubuntu host running manager, indexer, dashboard
+Windows 10       : 10.0.0.226   - Wazuh agent + Sysmon endpoint
+Ubuntu Endpoint  : 10.0.0.x     - Linux telemetry for SSH / auth / sudo
+Ubuntu Desktop   : 10.0.0.45    - Analyst / operator workstation
+
+Hardware: Dell R710 homelab server

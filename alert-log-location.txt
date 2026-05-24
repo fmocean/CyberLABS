@@ -1,0 +1,2 @@
+Main alert log location:
+/var/ossec/logs/alerts/alerts.json

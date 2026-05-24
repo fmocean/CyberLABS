@@ -1,0 +1,4 @@
+443/tcp   - Wazuh dashboard
+1514/tcp  - Agent events
+1515/tcp  - Agent enrollment / control
+55000/tcp - Wazuh API
