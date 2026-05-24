@@ -5,7 +5,7 @@ endpoint onboarding, SIEM operations, alert triage, dashboard design, detection 
 
 This project is centred on Wazuh, Windows, Linux, Sysmon, and dashboarding with a Grafana-style analyst mindset.
 Wazuh already supports custom dashboards and visualizations for alert review and investigation.
-Grafana can also be used with Wazuh data through the OpenSearch or Elasticsearch-style backend path that users commonly wire up for more flexible operational views.[cite:255][cite:256][cite:303]
+Grafana can also be used with Wazuh data through the OpenSearch or Elasticsearch-style backend path that users commonly wire up for more flexible operational views.
 
 
 ---
@@ -254,14 +254,14 @@ This one is designed to prove capability in the areas that show up over and over
 It demonstrates:
 
 - Bringing Windows and Linux endpoints under centralized monitoring.
-- Working with Wazuh agents, manager, indexer, and dashboard components.[cite:42][cite:58]
-- Improving Windows visibility with Sysmon event collection through the Wazuh agent.[cite:7][cite:10][cite:29]
-- Turning raw event flow into dashboards that support triage instead of noise.[cite:256][cite:273]
-- Investigating service failures such as the classic `Wazuh dashboard server is not ready yet` condition caused by indexer startup problems.[cite:284][cite:285][cite:295]
-- Building the foundation for custom detection engineering with Wazuh rules and `wazuh-logtest`.[cite:234][cite:237][cite:240]
+- Working with Wazuh agents, manager, indexer, and dashboard components.
+- Improving Windows visibility with Sysmon event collection through the Wazuh agent.
+- Turning raw event flow into dashboards that support triage instead of noise.
+- Investigating service failures such as the classic `Wazuh dashboard server is not ready yet` condition caused by indexer startup problems.
+- Building the foundation for custom detection engineering with Wazuh rules and `wazuh-logtest`.
 
 That combination matters because employers do not just want people who can click around in a dashboard.
-They want people who understand where the data comes from, why alerts fire, what breaks the platform, and how to make visibility useful.[cite:227][cite:228][cite:236]
+They want people who understand where the data comes from, why alerts fire, what breaks the platform, and how to make visibility useful.
 
 ---
 
@@ -302,7 +302,7 @@ Core components in play:
 - Linux Wazuh agent(s)
 - Sysmon on Windows
 
-Wazuh uses the dashboard for visualization and the `wazuh-alerts-*` pattern for alert-based analysis, while custom dashboard work is built around those indexed alerts.[cite:255][cite:256][cite:271]
+Wazuh uses the dashboard for visualization and the `wazuh-alerts-*` pattern for alert-based analysis, while custom dashboard work is built around those indexed alerts.
 
 ---
 
@@ -318,8 +318,7 @@ Grafana is valuable in this project because it signals a few things immediately:
 - Understanding of trends, baselines, spikes, and outliers instead of static counts.
 - Ability to present security data in a way that looks mature and professional.
 
-Wazuh users commonly connect Grafana to the OpenSearch/Elasticsearch-style backend to visualize Wazuh data, and Grafana Labs publishes community dashboards specifically for Wazuh SIEM/XDR and MITRE ATT&CK views.[cite:303][cite:302][cite:308]
-
+Wazuh users commonly connect Grafana to the OpenSearch/Elasticsearch-style backend to visualize Wazuh data, and Grafana Labs publishes community dashboards specifically for Wazuh SIEM/XDR and MITRE ATT&CK views.
 That matters for job hunting because many employers care less about one exact UI and more about whether someone can take security telemetry and build a usable monitoring surface from it.
 
 ---
@@ -339,10 +338,10 @@ This project is being shaped around dashboards that tell an analyst what matters
 - Windows-specific suspicious process activity
 - SSH-focused views for Linux authentication events
 
-Wazuh custom dashboard guidance emphasizes defining KPIs first, then building visualizations around alert severity, active/disconnected agents, source-specific monitoring, and data tables for high-priority events.[cite:273][cite:256]
+Wazuh custom dashboard guidance emphasizes defining KPIs first, then building visualizations around alert severity, active/disconnected agents, source-specific monitoring, and data tables for high-priority events.
 
 Grafana makes that idea even more powerful because it is excellent for trend panels, time-series views, drilldowns, and clean layout.
-Community Grafana dashboards for Wazuh include SIEM/XDR overviews, MITRE ATT&CK views, and compliance-focused dashboards, which makes it a strong add-on for presenting both technical and executive-friendly reporting.[cite:302][cite:308][cite:311]
+Community Grafana dashboards for Wazuh include SIEM/XDR overviews, MITRE ATT&CK views, and compliance-focused dashboards, which makes it a strong add-on for presenting both technical and executive-friendly reporting.
 
 ---
 
@@ -386,7 +385,7 @@ Planned or in-progress detections include:
 - Persistence behavior through scheduled tasks or Run keys
 - Suspicious process relationships
 
-Wazuh’s own threat-hunting and rule-testing guidance supports this workflow: identify useful behaviors, build rules around them, test them with `wazuh-logtest`, and tune them until the signal is useful.[cite:234][cite:237][cite:240]
+Wazuh’s own threat-hunting and rule-testing guidance supports this workflow: identify useful behaviors, build rules around them, test them with `wazuh-logtest`, and tune them until the signal is useful.
 
 That workflow is one of the biggest job signals in the whole repo because it shows movement from “user of tools” to “builder of detections.”
 
@@ -400,4 +399,4 @@ Handling that issue teaches several things employers care about:
 - Startup order and timeout tuning matter.
 - A reliable SOC stack is part of the job, not somebody else’s problem.
 
-Wazuh community guidance for these timeout cases includes increasing `TimeoutStartSec`, checking indexer logs, and tuning the environment so the indexer has enough time and resources to initialize.[cite:291][cite:295][cite:296]
+Wazuh community guidance for these timeout cases includes increasing `TimeoutStartSec`, checking indexer logs, and tuning the environment so the indexer has enough time and resources to initialize.
