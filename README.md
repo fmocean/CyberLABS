@@ -7,13 +7,246 @@ This project is centred on Wazuh, Windows, Linux, Sysmon, and dashboarding with 
 Wazuh already supports custom dashboards and visualizations for alert review and investigation.
 Grafana can also be used with Wazuh data through the OpenSearch or Elasticsearch-style backend path that users commonly wire up for more flexible operational views.[cite:255][cite:256][cite:303]
 
-This is not a screenshot repo.
-This is not “installed a SIEM once.”
-This is a working SOC lab built to prove practical skill.
 
 ---
 
 ## 
+
+## Stack
+
+Bare metal:
+- Dell R710 homelab
+
+Core services:
+- Wazuh all‑in‑one (manager + indexer + dashboard) on Ubuntu
+- Windows 10 endpoint
+- Ubuntu 18.x endpoint(s)
+- Ubuntu 24 desktop (admin box)
+
+Lab IPs (current):
+- 10.0.0.124  → Wazuh server
+- 10.0.0.226  → Windows 10
+- 10.0.0.xxx  → Ubuntu endpoint(s)
+- 10.0.0.45   → Ubuntu desktop
+
+What they’re used for:
+- Wazuh server: SIEM/XDR brain, stores alerts, serves dashboards.
+- Windows 10: Sysmon + Wazuh agent, used for endpoint / PowerShell / persistence tests.
+- Ubuntu endpoint: SSH, auth logs, sudo activity, brute‑force tests.
+- Ubuntu desktop: “SOC analyst” seat, used for SSH, dashboards, and tooling.
+
+---
+
+## Install (high level)
+
+Wazuh server (Ubuntu):
+
+```bash
+# 1) Install Wazuh all‑in‑one
+curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh
+sudo bash wazuh-install.sh -a
+
+# 2) Open ports (HTTPS, agents, API)
+sudo ufw allow 443/tcp
+sudo ufw allow 1514/tcp
+sudo ufw allow 1515/tcp
+sudo ufw allow 55000/tcp
+
+# 3) Check services
+sudo systemctl status wazuh-manager
+sudo systemctl status wazuh-indexer
+sudo systemctl status wazuh-dashboard
+```
+
+Windows 10 endpoint:
+
+```text
+1) Download Wazuh agent MSI from wazuh.com
+2) Run installer as admin
+   - Manager IP: 10.0.0.124
+3) Start service: NET START WazuhSvc
+```
+
+Sysmon on Windows:
+
+```powershell
+# in C:\Users\<user>\Downloads\Sysmon
+.\Sysmon64.exe -accepteula -i .\sysmonconfig-export.xml
+```
+
+Wazuh agent config for Sysmon (Windows):
+
+```xml
+<!-- C:\Program Files (x86)\ossec-agent\ossec.conf -->
+<localfile>
+  <location>Microsoft-Windows-Sysmon/Operational</location>
+  <log_format>eventchannel</log_format>
+</localfile>
+```
+
+Restart the agent:
+
+```powershell
+Restart-Service WazuhSvc
+```
+
+Ubuntu endpoint:
+
+```bash
+# install agent
+curl -sO https://packages.wazuh.com/4.x/agents/wazuh-agent.deb
+sudo dpkg -i wazuh-agent.deb
+
+# point to manager
+sudo sed -i 's/MANAGER_IP/10.0.0.124/' /var/ossec/etc/ossec.conf
+
+sudo systemctl enable wazuh-agent
+sudo systemctl start wazuh-agent
+```
+
+---
+
+## Config highlights
+
+Wazuh ports in UFW (server):
+
+```bash
+sudo ufw status
+# 443/tcp   → dashboard (HTTPS)
+# 1514/tcp  → agent events
+# 1515/tcp  → agent control
+# 55000/tcp → API
+```
+
+Sysmon collection (Windows agent):
+
+```xml
+<localfile>
+  <location>Microsoft-Windows-Sysmon/Operational</location>
+  <log_format>eventchannel</log_format>
+</localfile>
+```
+
+Agent list (server):
+
+```bash
+sudo /var/ossec/bin/agent_control -l
+# shows Linux + Windows agents as Active
+```
+
+Alerts live in:
+
+```bash
+/var/ossec/logs/alerts/alerts.json
+# tailed this a lot while testing
+```
+
+---
+
+## Problems I ran into (and fixed)
+
+### 1) “Wazuh dashboard server is not ready yet”
+
+Symptom:
+- HTTPS on 443 responds.
+- Browser shows Wazuh UI shell, but page sticks on:
+  `Wazuh dashboard server is not ready yet`.
+
+Root cause (lab):
+- `wazuh-indexer` was failing to start with a timeout.
+- Dashboard was up, backend was not.
+
+What I did:
+
+```bash
+# saw the failure
+sudo systemctl status wazuh-indexer --no-pager
+
+# created a systemd override to give indexer more time
+sudo mkdir -p /etc/systemd/system/wazuh-indexer.service.d
+echo -e "[Service]\nTimeoutStartSec=180" | \
+  sudo tee /etc/systemd/system/wazuh-indexer.service.d/startup-timeout.conf
+
+sudo systemctl daemon-reload
+sudo systemctl restart wazuh-indexer
+sudo systemctl restart wazuh-manager
+sudo systemctl restart wazuh-dashboard
+```
+
+Also checked:
+
+```bash
+sudo tail -n 40 /var/log/wazuh-indexer/wazuh-indexer-cluster_server.json
+```
+
+Lesson:
+- Dashboards can lie; always check backend health.
+- Indexer has to initialize cleanly or the UI is “up but not usable”.
+
+### 2) Dashboard reachable, `/status` failing
+
+Symptom:
+- `curl -k https://localhost/status` → connection refused.
+- `systemctl status wazuh-dashboard` said “running”.
+
+Fix:
+- Restart dashboard after confirming ports:
+
+```bash
+ss -tlnp | grep 443    # make sure 443 is listening
+sudo systemctl restart wazuh-dashboard
+curl -k https://localhost/status
+# now returns 401 Unauthorized (expected)
+```
+
+Lesson:
+- `/status` returning 401 JSON is “good” — it means the service is healthy
+  and just wants auth.
+
+### 3) Couldn’t edit `ossec.conf` on Windows
+
+Symptom:
+- Double‑clicked `ossec.conf`, edited, couldn’t save.
+
+Fix:
+- Opened Notepad as admin first:
+
+```text
+Start → type “Notepad” → right‑click → Run as administrator
+File → Open → C:\Program Files (x86)\ossec-agent\ossec.conf
+```
+
+Lesson:
+- Windows UAC will silently block saves into Program Files unless the editor itself is elevated.
+
+---
+
+## Dashboards and Grafana angle
+
+Wazuh:
+
+- Main alert data source: `wazuh-alerts-*`
+- Built:
+  - gauge panels for total alerts / monitored endpoints
+  - a data table for recent alerts
+  - bar chart for top agents by alert count
+  - bar chart for top rules by alert count
+- Filtered dashboard views:
+  - `rule.level >= 7` for “SOC view”
+  - per‑agent filters for Windows vs Linux
+
+Grafana (direction / future work):
+
+- Hook Wazuh’s OpenSearch/Elasticsearch backend into Grafana.
+- Build:
+  - time‑series panels for alert rate over time,
+  - MITRE ATT&CK‑style view using Wazuh labels,
+  - “executive” panel with counts, severities, and SLA‑style trends.
+
+Goal:
+- Show that I can go from raw `alerts.json` and Wazuh indices
+  to dashboards that answer “what’s happening” in a SOC‑friendly way,
+  both in Wazuh’s own UI and in Grafana.
 
 A good security lab should make it obvious what the builder can do.
 This one is designed to prove capability in the areas that show up over and over in SOC Analyst, SOC Engineer, and Cybersecurity Engineer job descriptions.
