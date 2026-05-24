@@ -1,7 +1,5 @@
 # SOC Engineering Range
 
-file:///home/ocean/Pictures/Screenshots/Screenshot%20from%202026-05-24%2009-32-55.png
-
 Builds:
 endpoint onboarding, SIEM operations, alert triage, dashboard design, detection tuning, troubleshooting, and security engineering under imperfect conditions.
 
